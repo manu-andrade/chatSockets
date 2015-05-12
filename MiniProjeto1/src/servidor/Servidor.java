@@ -95,6 +95,19 @@ public class Servidor {
 		
 	}
 	
+	public void sendPrivateMessage(String idUsuario, String nome_usuario, String message){
+		// Prepara a mensagem
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
+		String msg = idUsuario+": "+message+" - "+dateFormat.format(new Date());
+		
+		//envia para um usuario especifico
+		for (Usuario usuario: this.usuarios){
+			if(usuario.equals(nome_usuario)){
+				usuario.getOutput().println(msg);
+			}
+		}
+	}
+	
 	/* Enviar as mensagens para todos os usuários conectados */
 	public void sendAll (String msg) {
 		

@@ -55,6 +55,11 @@ public class UsuarioThread extends Thread{
 			if(msg2.contains("list")){
 				flag = "list";
 			}
+			
+			if(msg2.contains("-user")){
+				flag = "-user";
+				msg = msg2.replace("-user", "");
+			}
 		
 			switch (flag) {
 			
@@ -78,6 +83,7 @@ public class UsuarioThread extends Thread{
 				break;
 				
 			case "send -user":
+				servidor.sendPrivateMessage(idUsuario, nome_usuario, msg);
 				break;
 
 //			Se não for um comando... envia uma mensagem para todos os usuários
