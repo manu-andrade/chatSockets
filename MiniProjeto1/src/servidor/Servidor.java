@@ -124,7 +124,7 @@ public class Servidor {
 
 	public static void main(String[] args) throws IOException {
 		/********* Mudar para a porta desejada *********/
-		new Servidor(1061).executar();
+		new Servidor(1062).executar();
 		/****************************************************/
 	}
 	
