@@ -104,6 +104,8 @@ public class Servidor {
 		for (Usuario usuario: this.usuarios){
 			if(usuario.equals(nome_usuario)){
 				usuario.getOutput().println(msg);
+			}else{
+				usuario.getOutput().println("Usuario inexistente!");
 			}
 		}
 	}
@@ -122,7 +124,7 @@ public class Servidor {
 
 	public static void main(String[] args) throws IOException {
 		/********* Mudar para a porta desejada *********/
-		new Servidor(1060).executar();
+		new Servidor(1061).executar();
 		/****************************************************/
 	}
 	
