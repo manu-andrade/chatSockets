@@ -37,7 +37,7 @@ public class Cliente {
 			servidorOUT.println(msg);
 			
 //			Encerra o cliente caso tenha digitado "/sair"
-			if (msg.equals("/sair")) {
+			if (msg.equals("bye")) {
 				System.out.println("[Você foi desconectado do chat]");
 				socket.close();
 				s.close();
