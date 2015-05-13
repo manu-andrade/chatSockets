@@ -31,9 +31,9 @@ public class UsuarioThread extends Thread{
 		//		Adiciona o usuário na lista do Servidor
 		String idUsuario = servidor.addUsuario(nome, socket.getInetAddress().getHostAddress(), socket.getPort(), usuarioOUT);
 
-		usuarioOUT.println("\nBem vindo ao CHAT LINE "+nome+"! Comandos:\n"
-				+"send -all : Envia mensagem para todos os participantes do grupo\n"
-				+"send -user nomeUsuario : Envia mensagem para usuario específico\n"
+		usuarioOUT.println("\nBem vindo ao CHAT LINE "+nome+"! Comandos:\n\n"
+				+"send -all (msg) : Envia mensagem para todos os participantes do grupo\n"
+				+"send -user nomeUsuario (msg) : Envia mensagem para usuario específico\n"
 				+"list : Listar todos os participantes do grupo\n"
 				+"rename nomeNovo : Altera seu username\n"
 				+"bye : Sair do grupo\n\n");
@@ -119,7 +119,7 @@ public class UsuarioThread extends Thread{
 				
 				//			Se não for um comando... envia uma mensagem para todos os usuários
 			default:
-				usuarioOUT.println("Digite um comando Válido!");
+				usuarioOUT.println("[Digite um comando Válido!]");
 				break;
 			}
 		}

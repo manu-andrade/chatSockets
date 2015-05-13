@@ -75,12 +75,14 @@ public class Servidor {
 		for (Usuario usuario: this.usuarios) {
 			if (usuario.getNome().equals(novoNome)) {
 				String msg = "[Nome de usuário já em uso]";
-				sendAll(msg);
+				usuario.getOutput().println(msg);
+				//sendAll(msg);
 			}
 			else if (usuario.getId().equals(idUsuario)) {
 				usuario.setNome(novoNome);
 				String msg = "[Renomeado com sucesso]";
-				sendAll(msg);
+				usuario.getOutput().println(msg);
+				//sendAll(msg);
 			}
 		}
 	}
@@ -116,18 +118,18 @@ public class Servidor {
 	public void sendPrivateMessage(String idUsuario, String nome_usuario, String message){
 		// Prepara a mensagem
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
-		String msg = idUsuario+": "+message+" - "+dateFormat.format(new Date());
+		String msg = idUsuario+" [PRIVADO]: "+message+" - "+dateFormat.format(new Date());
 		
 		//envia para um usuario especifico
 		for (Usuario usuario: this.usuarios){
 			if(usuario.getNome().equalsIgnoreCase(nome_usuario)){
 				usuario.getOutput().println(msg);
 				break;
-			}else{
-				usuario.getOutput().println("Usuario inexistente!");
 			}
 		}
 	}
+
+	
 	
 	/* Enviar as mensagens para todos os usuários conectados */
 	public void sendAll (String msg) {
