@@ -16,7 +16,7 @@ public class Cliente {
 		
 		/********* Mudar para o IP da máquina local *********/
 		@SuppressWarnings("resource")
-		Socket socket = new Socket("10.34.21.1", 1062);
+		Socket socket = new Socket("10.34.21.1", 1068);
 		/****************************************************/
 		
 		
@@ -36,7 +36,7 @@ public class Cliente {
 			msg = s.nextLine();
 			servidorOUT.println(msg);
 			
-//			Encerra o cliente caso tenha digitado "/sair"
+//			Encerra o cliente caso tenha digitado "bye"
 			if (msg.equals("bye")) {
 				System.out.println("[Você foi desconectado do chat]");
 				socket.close();

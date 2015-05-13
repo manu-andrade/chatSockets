@@ -33,67 +33,71 @@ public class UsuarioThread extends Thread{
 		String idUsuario = servidor.addUsuario(nome, socket.getInetAddress().getHostAddress(), socket.getPort(), usuarioOUT);
 
 		usuarioOUT.println("\nBem vindo ao CHAT CHAT CHAT LINE "+nome+"! Comandos:\n"
-				+"/usuarios - Listar todos os participantes do grupo\n"
-				+"/sair - Sair do grupo\n\n");
+				+"send -all - Envia mensagem para todos os participantes do grupo\n"
+				+"send -user nomeUsuario - Envia mensagem para usuario específico\n"
+				+"list - Listar todos os participantes do grupo\n"
+				+"rename nomeAntigo nomeNovo - Altera seu username\n"
+				+"bye - Sair do grupo\n\n");
 
-		String[] msg = null;
+		String msg = null;
 		String flag = null;
 		String msg2 = null;
-		String nome_usuario;
+		String nome_usuario = null;
 		//		Controle de mensagens do Cliente
 		while (s.hasNextLine()) {
 			msg2 = s.nextLine();
-			msg = msg2.split(" ");
 
-			if(msg[0].equals("bye")){
+
+			if(msg2.contains("bye")){
 				flag = "bye";
 			}
 
-			if(msg[0].equals("send")){
-				switch (msg[1]) {
-				case "-all":
-					servidor.sendMessage(idUsuario, msg2);
-					break;
-				case "-user":
-					nome_usuario = msg[2];
-					servidor.sendPrivateMessage(idUsuario, nome_usuario, msg2);
-					break;
-				default:
-					break;
-				}
-
-				if(msg[0].equals("list")){
-					flag = "list";
-				}
-
-				switch (flag) {
-
-				//			Remove o usuário do Servidor e fecha o Socket
-				case "bye":
-					try {
-						servidor.removerUsuario(socket, idUsuario, nome);
-						socket.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					break;
-
-					//			Printa todos os usuários para o Cliente
-				case "list":
-					usuarioOUT.println(servidor.listarUsuarios());
-					break;
-
-					//			renomea o usuario			
-				case "rename":
-					break;
-
-					//			Se não for um comando... envia uma mensagem para todos os usuários
-				default:
-					usuarioOUT.println("Comando inexistente");
-					break;
-				}
+			if(msg2.contains("-all")){
+				flag = "send -all";
+				msg = msg2.replace("send -all", "");
+			}
+			
+			if(msg2.contains("-user")){
+				flag = "send -user";
+				msg = msg2.replace("send -user", "");
+				String[] arrayMsg = msg.split(" ");
+				nome_usuario = arrayMsg[0];
 			}
 
+			if(msg2.contains("list")){
+				flag = "list";
+			}
+
+			switch (flag) {
+
+			//			Remove o usuário do Servidor e fecha o Socket
+			case "bye":
+				try {
+					servidor.removerUsuario(socket, idUsuario, nome);
+					socket.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+
+				//			Printa todos os usuários para o Cliente
+			case "list":
+				usuarioOUT.println(servidor.listarUsuarios());
+				break;
+
+			case "send -all":
+				servidor.sendMessage(idUsuario, msg);
+				break;
+
+			case "send -user":
+				servidor.sendPrivateMessage(idUsuario, nome_usuario, msg);
+				break;
+
+				//			Se não for um comando... envia uma mensagem para todos os usuários
+			default:
+
+				break;
+			}
 		}
 	}
 }
