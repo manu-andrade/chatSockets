@@ -68,6 +68,23 @@ public class Servidor {
 		
 	}
 	
+	
+	/* Renomear Usuario */
+	public void renameUser (String idUsuario, String novoNome) throws IOException{
+		
+		for (Usuario usuario: this.usuarios) {
+			if (usuario.getNome().equals(novoNome)) {
+				String msg = "[Nome de usuário já em uso]";
+				sendAll(msg);
+			}
+			else if (usuario.getId().equals(idUsuario)) {
+				usuario.setNome(novoNome);
+				String msg = "[Renomeado com sucesso]";
+				sendAll(msg);
+			}
+		}
+	}
+	
 	/* Lista para visualizar todos os usuários */
 	public String listarUsuarios() {
 		
@@ -94,6 +111,7 @@ public class Servidor {
 		sendAll(msg);
 		
 	}
+	
 	
 	public void sendPrivateMessage(String idUsuario, String nome_usuario, String message){
 		// Prepara a mensagem

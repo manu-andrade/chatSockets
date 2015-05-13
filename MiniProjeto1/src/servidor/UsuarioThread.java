@@ -3,7 +3,6 @@ package servidor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -36,13 +35,14 @@ public class UsuarioThread extends Thread{
 				+"send -all - Envia mensagem para todos os participantes do grupo\n"
 				+"send -user nomeUsuario - Envia mensagem para usuario específico\n"
 				+"list - Listar todos os participantes do grupo\n"
-				+"rename nomeAntigo nomeNovo - Altera seu username\n"
+				+"rename nomeNovo - Altera seu username\n"
 				+"bye - Sair do grupo\n\n");
 
 		String msg = null;
-		String flag = null;
+		String flag = "";
 		String msg2 = null;
 		String nome_usuario = null;
+		String novo_usuario = null;
 		//		Controle de mensagens do Cliente
 		while (s.hasNextLine()) {
 			msg2 = s.nextLine();
@@ -66,6 +66,11 @@ public class UsuarioThread extends Thread{
 
 			if(msg2.contains("list")){
 				flag = "list";
+			}
+			
+			if (msg2.contains("rename")){
+				flag = "rename";
+				novo_usuario = msg2.split(" ")[1];
 			}
 
 			switch (flag) {
@@ -92,10 +97,19 @@ public class UsuarioThread extends Thread{
 			case "send -user":
 				servidor.sendPrivateMessage(idUsuario, nome_usuario, msg);
 				break;
-
+			
+			case "rename":
+				try {
+					servidor.renameUser(idUsuario, novo_usuario);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+				
 				//			Se não for um comando... envia uma mensagem para todos os usuários
 			default:
-
+				usuarioOUT.println("Digite um comando Válido!");
 				break;
 			}
 		}
