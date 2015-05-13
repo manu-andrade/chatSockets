@@ -54,7 +54,7 @@ public class UsuarioThread extends Thread{
 
 			if(msg2.contains("-all")){
 				flag = "send -all";
-				msg = msg2.replace("send -all", "");
+				msg = msg2.replace("send -all", "").trim();
 			}
 			
 			if(msg2.contains("-user")){
@@ -62,6 +62,7 @@ public class UsuarioThread extends Thread{
 				msg = msg2.replace("send -user", "");
 				String[] arrayMsg = msg.split(" ");
 				nome_usuario = arrayMsg[1];
+				msg = msg.replace(nome_usuario, "").trim();
 			}
 
 			if(msg2.contains("list")){
