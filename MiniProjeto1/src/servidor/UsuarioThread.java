@@ -71,6 +71,7 @@ public class UsuarioThread extends Thread{
 			if (msg2.contains("rename")){
 				flag = "rename";
 				novo_usuario = msg2.split(" ")[1];
+				nome = novo_usuario;
 			}
 
 			switch (flag) {
@@ -92,14 +93,14 @@ public class UsuarioThread extends Thread{
 
 //               envia mensagem para todos do grupo
 			case "send -all":
-				servidor.sendMessage(idUsuario, msg);
+				servidor.sendMessage(nome, socket.getInetAddress().getHostAddress(), socket.getPort(), msg);
 				break;
 
 //              envia mensagem para um usuário específico
 			case "send -user":
 				try {
 					
-					servidor.sendPrivateMessage(idUsuario, nome_usuario, msg);
+					servidor.sendPrivateMessage(nome, socket.getInetAddress().getHostAddress(), socket.getPort(), nome_usuario, msg);
 					
 				} catch (Exception e) {
 					System.err.println("Não foi possível envia mensagem para este usuário específico");
@@ -110,7 +111,7 @@ public class UsuarioThread extends Thread{
 //              renomeia um usuário já existente
 			case "rename":
 				try {
-					servidor.renameUser(idUsuario, novo_usuario);
+					servidor.renameUser(idUsuario,socket.getInetAddress().getHostAddress(), novo_usuario);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

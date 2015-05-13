@@ -70,7 +70,7 @@ public class Servidor {
 	
 	
 	/* Renomear Usuario */
-	public void renameUser (String idUsuario, String novoNome) throws IOException{
+	public void renameUser (String idUsuario, String ip, String novoNome) throws IOException{
 		
 		for (Usuario usuario: this.usuarios) {
 			if (usuario.getNome().equals(novoNome)) {
@@ -80,6 +80,8 @@ public class Servidor {
 			}
 			else if (usuario.getId().equals(idUsuario)) {
 				usuario.setNome(novoNome);
+				idUsuario = ip +":"+porta+"/~ "+novoNome;
+				usuario.setId(idUsuario);
 				String msg = "[Renomeado com sucesso]";
 				usuario.getOutput().println(msg);
 				//sendAll(msg);
@@ -103,11 +105,13 @@ public class Servidor {
 	}
 	
 	/* Enviar uma nova mensagem (sem ser um comando) */
-	public void sendMessage (String idUsuario, String message) {
+	public void sendMessage (String nome, String ip, int portaCliente,  String message) {
 		
 //		Prepara a mensagem
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
-		String msg = idUsuario+": "+message+" - "+dateFormat.format(new Date());
+		String msg = ip +":" + this.porta + "/~ "+ nome +": "+ message+" - "+dateFormat.format(new Date());
+		
+		
 		
 //		Envia pra todo mundo
 		sendAll(msg);
@@ -115,11 +119,12 @@ public class Servidor {
 	}
 	
 	
-	public void sendPrivateMessage(String idUsuario, String nome_usuario, String message){
+	public void sendPrivateMessage(String nome, String ip, int portaCliente, String nome_usuario, String message){
 		// Prepara a mensagem
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
-		String msg = idUsuario+" [PRIVADO]: "+message+" - "+dateFormat.format(new Date());
 		
+		String msg = ip +":" + this.porta + "/~ "+ nome +" [PRIVADO]: "+ message+" - "+dateFormat.format(new Date());
+
 		//envia para um usuario especifico
 		for (Usuario usuario: this.usuarios){
 			if(usuario.getNome().equalsIgnoreCase(nome_usuario)){
@@ -128,8 +133,6 @@ public class Servidor {
 			}
 		}
 	}
-
-	
 	
 	/* Enviar as mensagens para todos os usuários conectados */
 	public void sendAll (String msg) {
