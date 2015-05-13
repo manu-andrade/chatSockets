@@ -31,12 +31,12 @@ public class UsuarioThread extends Thread{
 		//		Adiciona o usuário na lista do Servidor
 		String idUsuario = servidor.addUsuario(nome, socket.getInetAddress().getHostAddress(), socket.getPort(), usuarioOUT);
 
-		usuarioOUT.println("\nBem vindo ao CHAT CHAT CHAT LINE "+nome+"! Comandos:\n"
-				+"send -all - Envia mensagem para todos os participantes do grupo\n"
-				+"send -user nomeUsuario - Envia mensagem para usuario específico\n"
-				+"list - Listar todos os participantes do grupo\n"
-				+"rename nomeNovo - Altera seu username\n"
-				+"bye - Sair do grupo\n\n");
+		usuarioOUT.println("\nBem vindo ao CHAT LINE "+nome+"! Comandos:\n"
+				+"send -all : Envia mensagem para todos os participantes do grupo\n"
+				+"send -user nomeUsuario : Envia mensagem para usuario específico\n"
+				+"list : Listar todos os participantes do grupo\n"
+				+"rename nomeNovo : Altera seu username\n"
+				+"bye : Sair do grupo\n\n");
 
 		String msg = null;
 		String flag = "";
@@ -61,7 +61,7 @@ public class UsuarioThread extends Thread{
 				flag = "send -user";
 				msg = msg2.replace("send -user", "");
 				String[] arrayMsg = msg.split(" ");
-				nome_usuario = arrayMsg[0];
+				nome_usuario = arrayMsg[1];
 			}
 
 			if(msg2.contains("list")){
@@ -75,7 +75,7 @@ public class UsuarioThread extends Thread{
 
 			switch (flag) {
 
-			//			Remove o usuário do Servidor e fecha o Socket
+//			    Remove o usuário do Servidor e fecha o Socket
 			case "bye":
 				try {
 					servidor.removerUsuario(socket, idUsuario, nome);
@@ -85,19 +85,29 @@ public class UsuarioThread extends Thread{
 				}
 				break;
 
-				//			Printa todos os usuários para o Cliente
+//   			Printa todos os usuários para o Cliente
 			case "list":
 				usuarioOUT.println(servidor.listarUsuarios());
 				break;
 
+//               envia mensagem para todos do grupo
 			case "send -all":
 				servidor.sendMessage(idUsuario, msg);
 				break;
 
+//              envia mensagem para um usuário específico
 			case "send -user":
-				servidor.sendPrivateMessage(idUsuario, nome_usuario, msg);
+				try {
+					
+					servidor.sendPrivateMessage(idUsuario, nome_usuario, msg);
+					
+				} catch (Exception e) {
+					System.err.println("Não foi possível envia mensagem para este usuário específico");
+				}
+				
 				break;
-			
+
+//              renomeia um usuário já existente
 			case "rename":
 				try {
 					servidor.renameUser(idUsuario, novo_usuario);

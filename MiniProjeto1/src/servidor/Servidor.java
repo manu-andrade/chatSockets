@@ -120,8 +120,9 @@ public class Servidor {
 		
 		//envia para um usuario especifico
 		for (Usuario usuario: this.usuarios){
-			if(usuario.equals(nome_usuario)){
+			if(usuario.getNome().equalsIgnoreCase(nome_usuario)){
 				usuario.getOutput().println(msg);
+				break;
 			}else{
 				usuario.getOutput().println("Usuario inexistente!");
 			}
@@ -142,7 +143,7 @@ public class Servidor {
 
 	public static void main(String[] args) throws IOException {
 		/********* Mudar para a porta desejada *********/
-		new Servidor(1071).executar();
+		new Servidor(1077).executar();
 		/****************************************************/
 	}
 	

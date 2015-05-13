@@ -16,7 +16,7 @@ public class Cliente {
 		
 		/********* Mudar para o IP da máquina local *********/
 		@SuppressWarnings("resource")
-		Socket socket = new Socket("192.168.2.6", 1070);
+		Socket socket = new Socket("150.165.250.236", 1077);
 		/****************************************************/
 		
 		
